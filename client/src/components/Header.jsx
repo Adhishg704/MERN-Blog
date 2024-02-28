@@ -1,9 +1,56 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
+import { AiOutlineSearch } from "react-icons/ai";
 
 export default function Header() {
   return (
     <div>
-        Header
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <Link className="navbar-brand" to="/">
+          <span className="mr-2 pr-2 bg-gradient-to-tr from-purple-500 to-pink-300 via-purple-500">
+            InsightX
+          </span>
+          Blog
+        </Link>
+        <div className="ml-5">
+          <form className="form-inline d-flex mr-auto">
+            <input
+              className="form-control mr-sm-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <Link to = "/">
+              <AiOutlineSearch color = "white" className="mt-3"/>
+            </Link>
+          </form>
+        </div>
+
+        <div className="ml-auto">
+          <ul className="navbar-nav">
+            <li className="nav-item p-3">
+              <Link className="nav-link text-white" to="/">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item p-3">
+              <Link className="nav-link text-white" to="/about">
+                About
+              </Link>
+            </li>
+            <li className="nav-item p-3">
+              <Link className="nav-link text-white" to="/projects">
+                Projects
+              </Link>
+            </li>
+            <li className="nav-item p-3">
+              <Link className="nav-link text-white btn bg-gradient-to-tr from-blue-100 to-purple-300 via-purple-300" to="/sign-in">
+                Sign in
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </div>
-  )
+  );
 }
