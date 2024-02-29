@@ -20,8 +20,8 @@ export default function Header() {
               placeholder="Search"
               aria-label="Search"
             />
-            <Link to = "/">
-              <AiOutlineSearch color = "white" className="mt-3"/>
+            <Link to="/">
+              <AiOutlineSearch color="white" className="mt-3" />
             </Link>
           </form>
         </div>
@@ -29,22 +29,25 @@ export default function Header() {
         <div className="ml-auto">
           <ul className="navbar-nav">
             <li className="nav-item p-3">
-              <Link className="nav-link text-white" to="/">
+              <Link className="nav-link text-yellow-50 hover:text-yellow-100 focus:text-yellow-100" to="/">
                 Home
               </Link>
             </li>
             <li className="nav-item p-3">
-              <Link className="nav-link text-white" to="/about">
+              <Link className="nav-link text-yellow-50 hover:text-yellow-100 focus:text-yellow-100" to="/about">
                 About
               </Link>
             </li>
             <li className="nav-item p-3">
-              <Link className="nav-link text-white" to="/projects">
+              <Link className="nav-link text-yellow-50 hover:text-yellow-100 focus:text-yellow-100" to="/projects">
                 Projects
               </Link>
             </li>
             <li className="nav-item p-3">
-              <Link className="nav-link text-white btn bg-gradient-to-tr from-blue-100 to-purple-300 via-purple-300" to="/sign-in">
+              <Link
+                className="nav-link text-yellow-50 hover:text-yellow-100 btn bg-gradient-to-tr from-blue-100 to-purple-300 via-purple-300 focus:text-yellow-50"
+                to="/sign-in"
+              >
                 Sign in
               </Link>
             </li>
