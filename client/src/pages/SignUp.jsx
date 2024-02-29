@@ -1,7 +1,40 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+
+  const [formData, setFormdata] = useState({});
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormdata({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/signup", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if(data.errors) {
+        setErrorMsg(data.errors[0].msg);
+      }
+      if(response.ok) {
+        navigate("/sign-in");
+      }
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="m-20 min-h-screen">
       <div className="inline-flex sm:flex-col md:flex-row md:items-center gap-4">
@@ -19,20 +52,23 @@ export default function SignUp() {
           </p>
         </div>
         <div className="max-w-3xl">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div>
-              <label for="username">Your username</label>
-              <input type="text" className="rounded-b border-cyan-100 block w-64" id="username" placeholder="Enter username" />
+              <label htmlFor="username">Your username</label>
+              <input type="text" className="rounded-b border-cyan-100 block w-64" id="username" placeholder="Enter username"  onChange={handleChange}/>
             </div>
             <div className="mt-2">
-              <label for="email">Your email</label>
-              <input type="email" className="rounded-b border-cyan-100 block w-64" id="email" placeholder="Enter email" />
+              <label htmlFor="email">Your email</label>
+              <input type="email" className="rounded-b border-cyan-100 block w-64" id="email" placeholder="Enter email" onChange={handleChange} />
             </div>
             <div className="mt-2">
-              <label for="password">Your password</label>
-              <input type="password" className="rounded-b border-cyan-100 block w-64" id="password" placeholder="Enter password" />
+              <label htmlFor="password">Your password</label>
+              <input type="password" className="rounded-b border-cyan-100 block w-64" id="password" placeholder="Enter password" onChange={handleChange}/>
             </div>
-            <button type="submit" class="btn bg-gradient-to-tr from-purple-100 to-pink-500 via-purple-300 mt-2 w-64 text-yellow-50 hover:text-yellow-100 focus:text-yellow-100">Sign up</button>
+            <div className="text-red-700 mt-3">
+              {errorMsg}
+            </div>
+            <button type="submit" className="btn bg-gradient-to-tr from-purple-100 to-pink-500 via-purple-300 mt-2 w-64 text-yellow-50 hover:text-yellow-100 focus:text-yellow-100">Sign up</button>
           </form>
           <div className="flex gap-2 text-sm mt-3">
             <span>Have an account?</span>
