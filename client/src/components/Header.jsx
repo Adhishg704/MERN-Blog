@@ -5,9 +5,9 @@ import { AiOutlineSearch } from "react-icons/ai";
 export default function Header() {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark pl-3 pr-3">
         <Link className="navbar-brand" to="/">
-          <span className="mr-2 pr-2 bg-gradient-to-tr from-purple-500 to-pink-300 via-purple-500">
+          <span className="mr-2 font-semibold p-2 bg-gradient-to-tr from-purple-500 to-pink-300 via-purple-500">
             InsightX
           </span>
           Blog
