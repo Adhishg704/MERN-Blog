@@ -72,7 +72,7 @@ export default function Header() {
                   </Dropdown>
                 ) : (
                   <Link
-                    className="nav-link text-yellow-50 hover:text-yellow-100 focus:text-yellow-100 btn bg-gradient-to-tr from-blue-100 to-purple-300 via-purple-300 focus:text-yellow-50"
+                    className="nav-link text-yellow-50 hover:text-yellow-100 focus:text-yellow-100 btn bg-gradient-to-tr from-blue-100 to-purple-300 via-purple-300="
                     to="/sign-in"
                   >
                     Sign in
