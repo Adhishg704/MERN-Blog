@@ -1,8 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { Avatar, Dropdown, DropdownItem, DropdownHeader, DropdownDivider } from "flowbite-react";
 
 export default function Header() {
+  const { currentUser } = useSelector(state => state.user);
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark pl-3 pr-3">
@@ -44,12 +48,37 @@ export default function Header() {
               </Link>
             </li>
             <li className="nav-item p-3">
-              <Link
-                className="nav-link text-yellow-50 hover:text-yellow-100 btn bg-gradient-to-tr from-blue-100 to-purple-300 via-purple-300 focus:text-yellow-50"
-                to="/sign-in"
-              >
-                Sign in
-              </Link>
+              {
+                currentUser ? (
+                  <Dropdown
+                  arrowIcon= {false}
+                  inline
+                  label = {
+                    <Avatar
+                    alt = {currentUser.username}
+                    rounded>
+
+                    </Avatar>
+                  }>
+                    <DropdownHeader>
+                      <span className="text-sm block">@{currentUser.username}</span>
+                      <span className="text-sm block font-medium truncate">{currentUser.email}</span>
+                    </DropdownHeader>
+                    <Link to = "/dashboard?tab=profile">
+                      <DropdownItem>Profile</DropdownItem>
+                    </Link>
+                    <DropdownDivider />
+                    <DropdownItem>Sign out</DropdownItem>
+                  </Dropdown>
+                ) : (
+                  <Link
+                    className="nav-link text-yellow-50 hover:text-yellow-100 focus:text-yellow-100 btn bg-gradient-to-tr from-blue-100 to-purple-300 via-purple-300 focus:text-yellow-50"
+                    to="/sign-in"
+                  >
+                    Sign in
+                  </Link>
+                )
+              }
             </li>
           </ul>
         </div>
