@@ -45,3 +45,14 @@ export const update = async (req, res, next) => {
     return res.status(400).json({ errors: "Cannot find user" });
   }
 };
+
+
+export const deleteUser = async (req, res, next) => {
+    try {
+      await User.findByIdAndDelete(req.params.userId);
+      return res.status(200).json({msg: "User deleted successfully"});
+    }
+    catch(err) {
+      return res.status(400).json({msg: "Error in deleting user"});
+    }
+};

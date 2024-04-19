@@ -1,7 +1,15 @@
-import { Button, TextInput } from "flowbite-react";
+import { Button, TextInput, Modal, Alert } from "flowbite-react";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateStart, updateSuccess, updateFailure } from "../redux/user/userSlice";
+import {
+  updateStart,
+  updateSuccess,
+  updateFailure,
+  deleteStart,
+  deleteSuccess,
+  deleteFailure
+} from "../redux/user/userSlice";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function DashProfile() {
   const { currentUser } = useSelector((state) => state.user);
@@ -9,6 +17,7 @@ export default function DashProfile() {
 
   const [formData, setFormData] = useState({});
   const [updateMsg, setUpdateMsg] = useState("");
+  const [modal, setModal] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -16,7 +25,7 @@ export default function DashProfile() {
       [e.target.id]: e.target.value,
     });
     console.log(formData);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,24 +34,50 @@ export default function DashProfile() {
     }
     try {
       dispatch(updateStart());
-      const response = await fetch(`http://localhost:3000/api/user/update/${currentUser._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/user/update/${currentUser._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await response.json();
       if (!response.ok) {
         dispatch(updateFailure({ errors: "Update failed" }));
-      }
-      else {
+      } else {
         console.log(data);
         dispatch(updateSuccess(data));
         setUpdateMsg("Updated successfully");
       }
-    }
-    catch (err) {
+    } catch (err) {
       dispatch(updateFailure({ errors: "Update failed" }));
     }
+  };
+
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    setModal(false);
+    try {
+      dispatch(deleteStart);
+      const response = await fetch(
+        `http://localhost:3000/api/user/delete/${currentUser._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if(!response.ok) {
+        dispatch(deleteFailure({errors: "Error in deleting user"}));
+      }
+      else {
+        dispatch(deleteSuccess());
+      }
+    } catch (error) {
+      dispatch(deleteFailure({errors: "Error in deleting user"}));
+    }
+    
+
   }
 
   return (
@@ -55,8 +90,18 @@ export default function DashProfile() {
           defaultValue={currentUser.username}
           onChange={handleChange}
         />
-        <TextInput type="text" id="email" defaultValue={currentUser.email} onChange={handleChange} />
-        <TextInput type="password" id="password" placeholder="password" onChange={handleChange} />
+        <TextInput
+          type="text"
+          id="email"
+          defaultValue={currentUser.email}
+          onChange={handleChange}
+        />
+        <TextInput
+          type="password"
+          id="password"
+          placeholder="password"
+          onChange={handleChange}
+        />
         <Button type="submit" gradientDuoTone="purpleToBlue">
           Update
         </Button>
@@ -65,9 +110,35 @@ export default function DashProfile() {
         <span className="text-green-200">{updateMsg}</span>
       </div>
       <div className="flex justify-between">
-        <span className="text-red-500 cursor-pointer mt-3">Delete Account</span>
+        <span
+          onClick={() => {
+            setModal(true);
+          }}
+          className="text-red-500 cursor-pointer mt-3"
+        >
+          Delete Account
+        </span>
         <span className="text-red-500 cursor-pointer">Sign out</span>
       </div>
+      <Modal show={modal} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 mx-auto text-gray-400" />
+            <span className="text-lg text-gray-400">
+              Are you sure you want to delete this account?
+            </span>
+            <div className="flex gap-4 justify-center">
+              <Button color="failure" className="mt-4" onClick={handleDelete}>
+                Yes, I am sure
+              </Button>
+              <Button color="success" className="mt-4" onClick={() => {setModal(false)}}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
