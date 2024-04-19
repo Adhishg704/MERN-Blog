@@ -3,9 +3,25 @@ import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Avatar, Dropdown, DropdownItem, DropdownHeader, DropdownDivider } from "flowbite-react";
+import { signoutSuccess } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function Header() {
   const { currentUser } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  const handleSignout = async (e) => {
+    try {
+      const response = await fetch("http://localhost:3000/api/user/signout", {
+        method: "POST",
+      });
+      if(response.ok) {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div>
@@ -68,7 +84,7 @@ export default function Header() {
                       <DropdownItem>Profile</DropdownItem>
                     </Link>
                     <DropdownDivider />
-                    <DropdownItem>Sign out</DropdownItem>
+                    <DropdownItem onClick={handleSignout}>Sign out</DropdownItem>
                   </Dropdown>
                 ) : (
                   <Link
