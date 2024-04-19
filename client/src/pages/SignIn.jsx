@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function SignIn() {
 
   const [formData, setFormdata] = useState({});
-  const {errors: errorMsg} = useSelector(state => state.user);
+  const [errorMsg, setErrorMsg] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ export default function SignIn() {
       });
       const data = await response.json();
       if(data.errors) {
-        dispatch(signInFailure(data.errors[0].msg));
+        setErrorMsg(data.errors[0].msg);
       }
       if(response.ok) {
         dispatch(signInSuccess(data));
