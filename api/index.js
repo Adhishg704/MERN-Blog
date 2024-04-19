@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import postRouter from "./routes/post.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -33,3 +34,5 @@ app.listen(PORT, () => {
 app.use("/api/user", userRouter);
 
 app.use("/api/auth", authRouter);
+
+app.use("/api/post", postRouter);

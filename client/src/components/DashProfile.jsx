@@ -8,9 +8,10 @@ import {
   deleteStart,
   deleteSuccess,
   deleteFailure,
-  signoutSuccess
+  signoutSuccess,
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 export default function DashProfile() {
   const { currentUser } = useSelector((state) => state.user);
@@ -56,7 +57,6 @@ export default function DashProfile() {
     }
   };
 
-
   const handleDelete = async (e) => {
     e.preventDefault();
     setModal(false);
@@ -68,30 +68,28 @@ export default function DashProfile() {
           method: "DELETE",
         }
       );
-      if(!response.ok) {
-        dispatch(deleteFailure({errors: "Error in deleting user"}));
-      }
-      else {
+      if (!response.ok) {
+        dispatch(deleteFailure({ errors: "Error in deleting user" }));
+      } else {
         dispatch(deleteSuccess());
       }
     } catch (error) {
-      dispatch(deleteFailure({errors: "Error in deleting user"}));
+      dispatch(deleteFailure({ errors: "Error in deleting user" }));
     }
-  }
-
+  };
 
   const handleSignout = async (e) => {
     try {
       const response = await fetch("http://localhost:3000/api/user/signout", {
         method: "POST",
       });
-      if(response.ok) {
+      if (response.ok) {
         dispatch(signoutSuccess());
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="mx-auto flex flex-col max-w-lg gap-4">
@@ -118,9 +116,22 @@ export default function DashProfile() {
         <Button type="submit" gradientDuoTone="purpleToBlue">
           Update
         </Button>
+        {currentUser.isAdmin && (
+          <div>
+            <Link to="/create-post">
+              <Button
+                type="button"
+                className="w-full"
+                gradientDuoTone="purpleToPink"
+              >
+                Create a post
+              </Button>
+            </Link>
+          </div>
+        )}
       </form>
       <div>
-        <span className="text-green-200">{updateMsg}</span>
+        <span className="text-green-500">{updateMsg}</span>
       </div>
       <div className="flex justify-between">
         <span
@@ -131,7 +142,9 @@ export default function DashProfile() {
         >
           Delete Account
         </span>
-        <span onClick={handleSignout} className="text-red-500 cursor-pointer">Sign out</span>
+        <span onClick={handleSignout} className="text-red-500 cursor-pointer">
+          Sign out
+        </span>
       </div>
       <Modal show={modal} popup>
         <Modal.Header />
@@ -145,7 +158,13 @@ export default function DashProfile() {
               <Button color="failure" className="mt-4" onClick={handleDelete}>
                 Yes, I am sure
               </Button>
-              <Button color="success" className="mt-4" onClick={() => {setModal(false)}}>
+              <Button
+                color="success"
+                className="mt-4"
+                onClick={() => {
+                  setModal(false);
+                }}
+              >
                 Cancel
               </Button>
             </div>
