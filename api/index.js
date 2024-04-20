@@ -13,7 +13,20 @@ const PORT = 3000;
 
 dotenv.config();
 
-app.use(cors());
+const allowedOrigins = ['http://localhost:5173', 'https://insightx-blog.onrender.com'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
