@@ -86,7 +86,7 @@ export default function CreatePost() {
     }
     else {
       setpublishError(null);
-      navigate(`post/${data.slug}`);
+      navigate(`/post/${data.slug}`);
     }
   }
 
