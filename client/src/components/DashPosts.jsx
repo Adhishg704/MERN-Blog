@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import UpdatePost from "../pages/UpdatePost";
 
 export default function DashPosts() {
   const { currentUser } = useSelector((state) => state.user);
