@@ -52,3 +52,16 @@ export const getPosts = async (req, res, next) => {
         lastMonthPosts
     });
 }
+
+
+export const deletePost = async (req, res, next) => {
+    if (req.query.userId !== req.query.postUserId) {
+        return res.status(400).json("You are not allowed to delete the post")
+    }
+    try {
+        await Post.findByIdAndDelete(req.query.postId);
+        return res.status(200).json("Post has been deleted successfully");
+    } catch (error) {
+        console.log(error.message);
+    }
+}

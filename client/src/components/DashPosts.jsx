@@ -1,18 +1,24 @@
-import { Table } from 'flowbite-react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Table } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Modal, Button } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function DashPosts() {
   const { currentUser } = useSelector((state) => state.user);
   const [userPosts, setUserPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);
-
+  const [showModal, setShowModal] = useState(false);
+  const [postId, setPostId] = useState('');
+  const [postUserId, setPostUserId] = useState('');
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/post/getposts?userId=${currentUser._id}`);
+        const res = await fetch(
+          `http://localhost:3000/api/post/getposts?userId=${currentUser._id}`
+        );
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
@@ -48,11 +54,33 @@ export default function DashPosts() {
   };
 
 
+  const handleDeletePost = async () => {
+    setShowModal(false);
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/post/deletepost?userId=${currentUser._id}&postId=${postId}&postUserId=${postUserId}`,
+        {
+          method: "DELETE"
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setUserPosts((prev) => prev.filter((post) => post._id !== postId));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
+
   return (
-    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
+    <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
-          <Table hoverable className='shadow-md'>
+          <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
               <Table.HeadCell>Post image</Table.HeadCell>
@@ -64,8 +92,8 @@ export default function DashPosts() {
               </Table.HeadCell>
             </Table.Head>
             {userPosts.map((post) => (
-              <Table.Body className='divide-y' key = {post._id}>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+              <Table.Body className="divide-y" key={post._id}>
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </Table.Cell>
@@ -74,13 +102,13 @@ export default function DashPosts() {
                       <img
                         src={post.image}
                         alt={post.title}
-                        className='w-20 h-10 object-cover bg-gray-500'
+                        className="w-20 h-10 object-cover bg-gray-500"
                       />
                     </Link>
                   </Table.Cell>
                   <Table.Cell>
                     <Link
-                      className='font-medium text-gray-900 dark:text-white'
+                      className="font-medium text-gray-900 dark:text-white"
                       to={`/post/${post.slug}`}
                     >
                       {post.title}
@@ -89,14 +117,19 @@ export default function DashPosts() {
                   <Table.Cell>{post.category}</Table.Cell>
                   <Table.Cell>
                     <span
-                      className='font-medium text-red-500 hover:underline cursor-pointer'
+                      onClick={() => {
+                        setShowModal(true);
+                        setPostId(post._id);
+                        setPostUserId(post.userId);
+                      }}
+                      className="font-medium text-red-500 hover:underline cursor-pointer"
                     >
                       Delete
                     </span>
                   </Table.Cell>
                   <Table.Cell>
                     <Link
-                      className='text-teal-500 hover:underline'
+                      className="text-teal-500 hover:underline"
                       to={`/update-post/${post._id}`}
                     >
                       <span>Edit</span>
@@ -109,7 +142,7 @@ export default function DashPosts() {
           {showMore && (
             <button
               onClick={handleShowMore}
-              className='w-full text-teal-500 self-center text-sm py-7'
+              className="w-full text-teal-500 self-center text-sm py-7"
             >
               Show more
             </button>
@@ -118,6 +151,31 @@ export default function DashPosts() {
       ) : (
         <p>You have no posts yet!</p>
       )}
+      <Modal show={showModal} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 mx-auto text-gray-400" />
+            <span className="text-lg text-gray-400">
+              Are you sure you want to delete this account?
+            </span>
+            <div className="flex gap-4 justify-center">
+              <Button color="failure" className="mt-4" onClick={handleDeletePost}>
+                Yes, I am sure
+              </Button>
+              <Button
+                color="success"
+                className="mt-4"
+                onClick={() => {
+                  setShowModal(false);
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
