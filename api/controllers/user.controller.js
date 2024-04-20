@@ -65,3 +65,17 @@ export const signout = (req, res, next) => {
     console.log(error);
   }
 }
+
+
+export const getUsers = async (req, res, next) => {
+  try {
+    const {limit, startIndex, isAdmin} = req.query;
+    if(!isAdmin) {
+      return res.status(401).json("You are not allowed to see users");
+    }
+    const users = await User.find({}).skip(startIndex).limit(limit);
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+  }
+}
