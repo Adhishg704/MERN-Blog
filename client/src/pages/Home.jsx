@@ -8,7 +8,7 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/post/getposts?limit=6", {
+        const res = await fetch("https://insightx-blog.onrender.com/api/post/getposts?limit=6", {
           method: "GET",
         });
         const data = await res.json();

@@ -23,7 +23,7 @@ export default function UpdatePost() {
   useEffect(() => {
     try {
         const fetchPost = async () => {
-            const res = await fetch(`http://localhost:3000/api/post/getposts?postId=${postId}`, {
+            const res = await fetch(`https://insightx-blog.onrender.com/api/post/getposts?postId=${postId}`, {
                 method: "GET"
             });
             const data = await res.json();

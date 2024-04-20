@@ -72,7 +72,7 @@ export default function CreatePost() {
       userId: currentUser._id
     }
     console.log(combinedData);
-    const response = await fetch('http://localhost:3000/api/post/create', {
+    const response = await fetch('https://insightx-blog.onrender.com/api/post/create', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

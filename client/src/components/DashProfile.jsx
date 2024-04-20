@@ -37,7 +37,7 @@ export default function DashProfile() {
     try {
       dispatch(updateStart());
       const response = await fetch(
-        `http://localhost:3000/api/user/update/${currentUser._id}`,
+        `https://insightx-blog.onrender.com/api/user/update/${currentUser._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -63,7 +63,7 @@ export default function DashProfile() {
     try {
       dispatch(deleteStart);
       const response = await fetch(
-        `http://localhost:3000/api/user/delete/${currentUser._id}`,
+        `https://insightx-blog.onrender.com/api/user/delete/${currentUser._id}`,
         {
           method: "DELETE",
         }
@@ -80,7 +80,7 @@ export default function DashProfile() {
 
   const handleSignout = async (e) => {
     try {
-      const response = await fetch("http://localhost:3000/api/user/signout", {
+      const response = await fetch("https://insightx-blog.onrender.com/api/user/signout", {
         method: "POST",
       });
       if (response.ok) {

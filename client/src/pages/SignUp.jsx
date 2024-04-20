@@ -17,7 +17,7 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
+      const response = await fetch("https://insightx-blog.onrender.com/api/auth/signup", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(formData),

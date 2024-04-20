@@ -18,7 +18,7 @@ export default function DashPosts() {
     const fetchPosts = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/post/getposts?userId=${currentUser._id}`
+          `https://insightx-blog.onrender.com/api/post/getposts?userId=${currentUser._id}`
         );
         const data = await res.json();
         if (res.ok) {
@@ -40,7 +40,7 @@ export default function DashPosts() {
     const startIndex = userPosts.length;
     try {
       const res = await fetch(
-        `http://localhost:3000/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+        `https://insightx-blog.onrender.com/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
       );
       const data = await res.json();
       if (res.ok) {
@@ -59,7 +59,7 @@ export default function DashPosts() {
     setShowModal(false);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/post/deletepost?userId=${currentUser._id}&postId=${postId}&postUserId=${postUserId}`,
+        `https://insightx-blog.onrender.com/api/post/deletepost?userId=${currentUser._id}&postId=${postId}&postUserId=${postUserId}`,
         {
           method: "DELETE"
         }

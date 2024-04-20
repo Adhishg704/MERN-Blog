@@ -21,7 +21,7 @@ export default function SignIn() {
     dispatch(signInStart());
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signin", {
+      const response = await fetch("https://insightx-blog.onrender.com/api/auth/signin", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(formData),

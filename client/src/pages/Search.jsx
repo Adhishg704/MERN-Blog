@@ -36,7 +36,7 @@ export default function Search() {
     const fetchPosts = async () => {
       setLoading(true);
       const searchQuery = urlParams.toString();
-      const res = await fetch(`http://localhost:3000/api/post/getposts?${searchQuery}`);
+      const res = await fetch(`https://insightx-blog.onrender.com/api/post/getposts?${searchQuery}`);
       if (!res.ok) {
         setLoading(false);
         return;

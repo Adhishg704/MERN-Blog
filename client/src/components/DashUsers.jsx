@@ -17,7 +17,7 @@ export default function DashUsers() {
     const fetchUsers = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/user/getusers?limit=9&isAdmin=${currentUser.isAdmin}`, {
+          `https://insightx-blog.onrender.com/api/user/getusers?limit=9&isAdmin=${currentUser.isAdmin}`, {
             method: "GET"
           }
         );
@@ -42,7 +42,7 @@ export default function DashUsers() {
     const startIndex = users.length;
     try {
       const res = await fetch(
-        `http://localhost:3000/api/user/getusers?limit=9&isAdmin=${currentUser.isAdmin}&startIndex=${startIndex}`, {
+        `https://insightx-blog.onrender.com/api/user/getusers?limit=9&isAdmin=${currentUser.isAdmin}&startIndex=${startIndex}`, {
             method: "GET"
         }
       );
@@ -62,7 +62,7 @@ export default function DashUsers() {
   const handleDeleteUser = async () => {
     setShowModal(false);
     const res = await fetch(
-        `http://localhost:3000/api/user/delete/${userIdToBeDeleted}`, {
+        `https://insightx-blog.onrender.com/api/user/delete/${userIdToBeDeleted}`, {
             method: "DELETE"
         }
     );
