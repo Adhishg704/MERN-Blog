@@ -25,7 +25,7 @@ export default function Home() {
       <div className="mt-5 text-center">
         <h1 className="text-4xl font-bold">
           Welcome to
-          <span className="m-2 p-8 text-yellow-50 font-bold p-2 bg-gradient-to-tr from-purple-500 to-pink-300 via-purple-500">
+          <span className="m-2 p-2 text-yellow-50 font-bold bg-gradient-to-tr from-purple-500 to-pink-300 via-purple-500">
             InsightX
           </span>
           Blog
