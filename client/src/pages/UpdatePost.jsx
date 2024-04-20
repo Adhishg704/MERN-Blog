@@ -93,7 +93,7 @@ export default function UpdatePost() {
       currentUserId: currentUser._id
     }
     console.log(combinedData);
-    const response = await fetch('http://localhost:3000/api/post/updatepost', {
+    const response = await fetch('https://insightx-blog.onrender.com/api/post/updatepost', {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
